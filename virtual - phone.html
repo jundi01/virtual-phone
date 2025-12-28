@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Android Virtual Phone</title>
+
+<style>
+body {
+  margin: 0;
+  background: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.phone {
+  width: 260px;
+  height: 500px;
+  background: black;
+  border-radius: 30px;
+  padding: 10px;
+}
+
+.screen {
+  background: #111;
+  height: 100%;
+  border-radius: 22px;
+  padding: 10px;
+  color: white;
+  overflow: auto;
+}
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #ccc;
+  margin-bottom: 10px;
+}
+
+.apps {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.app {
+  background: #4CAF50;
+  color: white;
+  text-align: center;
+  padding: 18px 5px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+input {
+  width: 90%;
+  padding: 8px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+button {
+  margin-top: 15px;
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: none;
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+  <div class="screen">
+    <div id="screen-content"></div>
+  </div>
+</div>
+
+<script>
+function showLogin() {
+  document.getElementById("screen-content").innerHTML = `
+    <h3 style="text-align:center;">Login Virtual Phone</h3>
+    <input id="username" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+    <div style="text-align:center;">
+      <button onclick="login()">Login</button>
+    </div>
+  `;
+}
+
+function login() {
+  const user = document.getElementById("username").value;
+  const pass = document.getElementById("password").value;
+
+  if (user && pass) {
+    localStorage.setItem("user", user);
+    showHome();
+  } else {
+    alert("Isi username dan password");
+  }
+}
+
+function showHome() {
+  document.getElementById("screen-content").innerHTML = `
+    <div class="status-bar">
+      <span>?? 4G</span>
+      <span>12:00</span>
+      <span>?? 90%</span>
+    </div>
+
+    <h3 style="text-align:center;">Android Virtual</h3>
+
+    <div class="apps">
+
+
+
+<div class="app" onclick="openApp('Catatan')">??<br>Catatan</div>
+      <div class="app" onclick="openApp('YouTube')">??<br>YouTube</div>
+      <div class="app" onclick="openApp('Google')">??<br>Google</div>
+      <div class="app" onclick="openApp('WhatsApp')">??<br>WhatsApp</div>
+      <div class="app" onclick="openApp('Browser')">??<br>Browser</div>
+    </div>
+  `;
+}
+
+function openApp(name) {
+  let url = "";
+
+if (name === "Catatan") {
+  document.getElementById("screen-content").innerHTML = `
+    <h3>?? Catatan</h3>
+    <textarea id="note" style="width:100%;height:200px;"></textarea>
+    <button onclick="saveNote()">Simpan</button>
+    <button onclick="showHome()">? Home</button>
+  `;
+  return;
+}
+
+
+function saveNote() {
+  const note = document.getElementById("note").value;
+  localStorage.setItem("note", note);
+  alert("Catatan disimpan");
+}
+  if (name === "YouTube") url = "https://m.youtube.com";
+  if (name === "Google") url = "https://google.com";
+  if (name === "WhatsApp") url = "https://web.whatsapp.com";
+  if (name === "Browser") url = "https://google.com";
+
+  if (url !== "") {
+    window.open(url, "_blank");
+  }
+}
+
+// AUTO START
+if (localStorage.getItem("user")) {
+  showHome();
+} else {
+  showLogin();
+}
+</script>
+
+</body>
+</html>
